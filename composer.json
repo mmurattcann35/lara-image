@@ -1,0 +1,25 @@
+{
+    "name": "mmurattcann/lara-image",
+    "description": "A package to resize, crop, edit files during upload.",
+    "type": "metapackage",
+    "require": {
+        "intervention/image": "2.5.*"
+    },
+    "require-dev": {
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Murat CAN",
+            "email": "muratcan.php@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mmurattcann\\LaraImage\\LaraImageServiceProvider\\"
+            ]
+        }
+    }
+}
