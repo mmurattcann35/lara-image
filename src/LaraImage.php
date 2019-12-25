@@ -19,7 +19,7 @@ class LaraImage
 
         $disk = Storage::disk(self::_DISK);
 
-        if (!$disk->exists($path)) return $disk->makeDirectory($path);
+        if (!$disk->exists($path)) $disk->makeDirectory($path);
 
         return $path;
     }
