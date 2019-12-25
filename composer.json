@@ -1,7 +1,7 @@
 {
     "name": "mmurattcann/lara-image",
     "description": "A package to resize, crop, edit files during upload.",
-    "type": "metapackage",
+    "type": "library",
     "require-dev": {
     },
     "license": "MIT",
