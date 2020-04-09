@@ -1,6 +1,6 @@
 <?php
 
-namespace Mmurattcann\LaraImage;
+namespace Murattcann\LaraImage;
 
 use Illuminate\Support\ServiceProvider;
 

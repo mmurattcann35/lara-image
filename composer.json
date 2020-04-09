@@ -1,5 +1,5 @@
 {
-    "name": "mmurattcann/lara-image",
+    "name": "murattcann/lara-image",
     "description": "A package to resize, crop, edit files during upload.",
     "type": "library",
     "require-dev": {
@@ -13,14 +13,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "Mmurattcann\\LaraImage\\": "src/"
+            "Murattcann\\LaraImage\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
-                "Mmurattcann\\LaraImage\\LaraImageServiceProvider"
+                "Murattcann\\LaraImage\\LaraImageServiceProvider"
             ]
         }
     }

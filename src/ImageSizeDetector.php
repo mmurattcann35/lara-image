@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Mmurattcann\LaraImage;
+namespace Murattcann\LaraImage;
 
 use Intervention\Image\Facades\Image;
 
