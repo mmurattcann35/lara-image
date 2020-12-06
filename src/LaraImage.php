@@ -13,11 +13,18 @@ use Illuminate\Support\Str;
 class LaraImage
 {
     private const _DISK = "public";
+    private const _S3 = "s3";
     private const _DEFAULT_IMAGE = "https://via.placeholder.com/500x500.png?text=Setted+As+Default+Image";
 
-    private static function setPath($path){
+    private static function setPath($path, $isS3=false){
+
 
         $disk = Storage::disk(self::_DISK);
+
+
+        if($isS3 == true){
+            $disk = Storage::disk(self::_S3);
+        }
 
         if (!$disk->exists($path)) $disk->makeDirectory($path);
 
@@ -29,14 +36,19 @@ class LaraImage
         return Validator::make(request()->all(), [request()->file($image) => 'image|mimes:jpeg,jpg,png,gif'])->validate();
     }
 
-    public static function upload($operationType= null, $path=null, $title=null, $image = null,  $width=null, $height=null){
+    public static function upload($operationType= null, $path=null, $title=null, $image = null,  $width=null, $height=null, $isS3 = false){
 
         $slug = Str::slug($title);
 
-        $disk = Storage::disk(self::_DISK);
+        $diskType = self::_DISK;
+
+        if($isS3 == true){
+            $diskType = self::_S3;
+        }
+        $disk = Storage::disk($diskType);
+
 
         $currentDate = Carbon::now()->toDateString();
-
 
         if($width == null) $width   = ImageSizeDetector::getImageWidth($image);
 
@@ -55,7 +67,7 @@ class LaraImage
 
                     $resizedImage = Image::make($image)->resize($width, $height)->save();
 
-                    $disk->put(self::setPath($path)."/".$imageName, $resizedImage);
+                    $disk->put(self::setPath($path, $isS3). "/" . $imageName, $resizedImage);
                 }
             }
             else{
@@ -75,11 +87,11 @@ class LaraImage
 
                     $imageName   = $slug."-".$currentDate."-".uniqid().".".$image->getClientOriginalExtension();
 
-                    self::deleteUploadedFile($path,$imageName);
+                    self::deleteUploadedFile($path,$imageName, $isS3);
 
                     $resizedImage = Image::make($image)->resize($width, $height)->save();
 
-                    $disk->put(self::setPath($path). "/" . $imageName, $resizedImage);
+                    $disk->put(self::setPath($path,  $isS3). "/" . $imageName, $resizedImage);
                 }
             } else {
 
@@ -90,9 +102,13 @@ class LaraImage
         return $imageName;
     }
 
-    public static function deleteUploadedFile($path, $imageName){
+    public static function deleteUploadedFile($path, $imageName, $isS3 = false){
 
         $disk = Storage::disk(self::_DISK);
+
+        if($isS3 == true){
+            $disk = Storage::disk(self::_S3);
+        }
 
         if($disk->exists($path."/".$imageName)){
             $disk->delete($path."/".$imageName);
